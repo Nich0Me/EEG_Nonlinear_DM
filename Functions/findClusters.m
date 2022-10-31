@@ -11,7 +11,7 @@ function [clustmass, cluster] = findClusters(input)
 % Find all the t-values over 2
 tval = stat.tstat > 2;
 % Find clusters bigger than 2 consecutive points
-min_time = 2;
+min_time = 1;
 
 cluster = zeros(1,size(tval,2));
 clust_idx = 1;
@@ -19,7 +19,7 @@ clust_idx = 1;
 % Find and number clusters
 for t = 2:size(input,2)-min_time-1
 
-    if tval(t) == 1 & tval(t+min_time-1) == 1 & tval(t-1) == 0
+    if tval(t) == 1 & sum(tval(t:t+min_time)) == min_time+1 & tval(t-1) == 0
         pos_in = t;
 
         while tval(t)==1 & t < size(input,2)-1

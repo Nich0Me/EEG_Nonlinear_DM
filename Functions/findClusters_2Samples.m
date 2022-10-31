@@ -13,7 +13,7 @@ pos_tval = stat.tstat > 2;
 neg_tval = stat.tstat < -2;
 
 % Find clusters bigger than 2 consecutive points
-min_time = 2;
+min_time = 1;
 
 cluster = zeros(1,size(pos_tval,2));
 clust_idx = 1;
@@ -21,7 +21,7 @@ clust_idx = 1;
 % Find and number clusters
 for t = 2:size(input1,2)-min_time-1
 
-    if pos_tval(t) == 1 & pos_tval(t+min_time-1) == 1 & pos_tval(t-1) == 0
+    if pos_tval(t) == 1 & sum(pos_tval(t:t+min_time)) == min_time+1 & pos_tval(t-1) == 0
         pos_in = t;
 
         while pos_tval(t)==1 & t < size(input1,2)-1
@@ -37,7 +37,7 @@ end
 
 for t = 2:size(input1,2)-min_time-1
 
-    if neg_tval(t) == 1 & neg_tval(t+min_time-1) == 1 & neg_tval(t-1) == 0
+    if neg_tval(t) == 1 & sum(neg_tval(t:t+min_time)) == min_time+1 & neg_tval(t-1) == 0
         pos_in = t;
 
         while neg_tval(t)==1 & t < size(input1,2)-1
